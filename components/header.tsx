@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
+import Link from "next/link"
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -18,10 +19,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
+      <div className="container relative h-14 max-w-screen-2xl flex items-center justify-between">
         <span className="font-bold italic sm:inline-block">CodeScanner</span>
 
-        <div>
+        {/* Top-right container */}
+        <div className="absolute top-3 right-0 flex items-center space-x-10 p-1">
           {/* Theme toggle button */}
           <button
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
@@ -41,81 +43,14 @@ export default function Header() {
               )}
             </span>
           </button>
+          <Link
+              href="/about"
+              className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800"
+            >
+              About Us
+            </Link>
         </div>
       </div>
     </header>
   );
 }
-
-
-
-/*
-"use client"
-
-import { useTheme } from "next-themes"
-import { Moon, Sun } from "lucide-react"
-import Image from "next/image"
-import { ReactNode, useState, useEffect } from "react"
-
-interface LayoutProps {
-  children: ReactNode;
-} 
-
-export default function Layout({ children }: LayoutProps) {
-  const [theme, setTheme] = useState('light');
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
-
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-          <span className="font-bold sm:inline-block">
-            Code Scanner
-          </span>
-            <div>
-              <button onClick={toggleTheme}>
-                {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-              </button>
-              <main>{children}</main>
-            </div>
-         {<div className="flex items-center">
-          {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-gray-700"
-              role="switch"
-              aria-checked={theme === "dark"}
-            >
-              <span className="sr-only">Toggle dark mode</span>
-              <span
-                className={`${
-                  theme === "dark" ? "translate-x-6" : "translate-x-1"
-                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-              >
-                {theme === "dark" ? (
-                  <Moon className="h-4 w-4 text-gray-800" />
-                ) : (
-                  <Sun className="h-4 w-4 text-yellow-500" />
-                )}
-              </span>
-            </button>
-          )}
-        </div>  }
-      </div>
-    </header>
-  )
-}
-*/
